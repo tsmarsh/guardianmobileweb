@@ -1,0 +1,224 @@
+<html>
+<head>
+<title>Unofficial Guardian</title>
+<style>
+	body {
+	    font-family: arial,sans-serif;
+	    background-color: white;
+	}
+
+	h1{
+		margin-top: 25px;
+		width: 320px;
+		height: 48px;
+		background-image: url('Images/guardian_logo.gif');
+		background-repeat: no-repeat;
+		background-position:center;
+		position: center;
+	}
+
+	ul#menu{
+		overflow: hidden;
+	}
+	ul#menu li{
+		//background-color: #D61D00;
+		float: left;
+		font-family: georgia,serif;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		margin: 2px;
+		height: 24px;
+		padding-left: 12px;
+		padding-right: 12px;
+		padding-top: 12px;
+		color: white;
+	}
+
+	.news {
+		background-color: #D61D00;
+	}
+
+	.sport {
+		background-color: #008000;
+	}
+
+	.football {
+		background-color: #008000;
+	}
+
+	.comment {
+		background-color: #0061BB;
+	}
+
+	.culture {
+		background-color: #D1008B;
+	}
+
+	.business {
+		background-color: #3246AB;
+	}
+
+	.money {
+		background-color: #8F1AB6;
+	}
+
+	.lifeandstyle {
+		background-color: #AD532F;
+	}
+
+	.travel {
+		background-color: #066EC9;
+	}
+
+	.environment {
+		background-color: #4A7801;
+	}
+
+	.science {
+		background-color: #AB1700;
+	}
+
+	.technology {
+		background-color: #AB1700;
+	}
+
+	.politics {
+		background-color: #AB1700;
+	}
+
+	.music {
+		background-color: #7D005D;
+	}
+	
+	.film {
+		background-color: #7D005D;
+	}
+	
+	.society {
+		background-color: #AB1700;
+	}
+	h3 {
+		color: rgb(0, 86, 137);
+		padding-left: 5px;
+		padding-right: 10px;
+		border-top: #888888;
+		border-top-style: solid;
+		border-top-width: 1px;
+		font-family: georgia;
+		font-size: 17px;
+		font-weight: bold;
+		text-overflow: ellipsis;
+		background-image: url('/Images/chevron.png');
+		background-repeat: no-repeat;
+		background-position:right;
+	}
+	
+	ul#trailblock {
+		padding-left: 5px;
+		padding-bottom: 5px;
+	}
+
+	ul#trailblock li {
+		padding-left: 1em;
+		padding-right: 1em;
+		left: 10px;
+		font-family: arial,sans-serif;
+		font-size: 9pt;
+		color: #333333;
+		overflow: hidden;
+		text-overflow: ellipsis
+	}
+
+	img.thumbnail {
+		width: 140px;
+		float: left;
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+
+	ul{
+		padding: 0;
+	}
+
+	p{
+		margin-top: 0;
+	}
+
+</style>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="minimum-scale=1.0, width=device-width, maximum-scale=1.6, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="YES">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body>
+	<h1></h1>
+	<ul id="menu">
+	</ul>
+	<ul id="trailblock">
+	</ul>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+	<script type="text/javascript">
+	
+	function show_detail(id, detail_url){
+		$('li#'+ id + ' p.summary').slideToggle();
+		$('li#'+ id + ' img.thumbnail').slideToggle();
+		if($('li#'+ id + ' p.body').html() === ""){
+			$.getJSON(detail_url + "?callback=?",
+				function(detail_data){
+					$('li#'+ id + ' p.body').html(detail_data.body).appendTo('#' + id);
+				}
+			);
+		}
+		$('li#'+ id + ' p.body').slideToggle();
+
+	};
+	
+	function build_summary(summary_url){
+		$.getJSON(summary_url + "?callback=?",
+			function(summary_data){
+				var li = $(document.createElement('li')).attr('id', summary_data.id).click(
+					function(){
+						show_detail(summary_data.id, summary_data.detail_url);
+					}).appendTo("#trailblock");
+				$(document.createElement('h3')).addClass('heading').html(summary_data.headline).appendTo(li);
+				if(summary_data.thumbnail){
+					$(document.createElement('img')).addClass('thumbnail').attr('src', summary_data.thumbnail.url).appendTo(li);
+				}
+				$(document.createElement('p')).addClass('summary').html(summary_data.summary).appendTo(li);
+				$(document.createElement('p')).addClass('body').appendTo(li).hide();
+			}
+		)
+	};
+	
+	function build_list(list_url){
+		$('#trailblock').empty();
+		$.getJSON(list_url + "?callback=?",
+			function(list_data){
+				$.each(list_data,
+					function(i, list_item){
+						build_summary(list_item);
+					}
+				);	
+			}
+		)
+	};
+	
+	$.getJSON("http://superguardianmobile.appspot.com/api/?callback=?",
+		function(data){
+			$.each(data, 
+				function(i,item){
+					$(document.createElement("li"))
+						.attr("href", item.path)
+						.html(item.link_text)
+						.addClass(item.zone)
+						.appendTo("#menu")
+						.click(
+							function(){
+								build_list(item.path);
+							}
+						);
+				});
+			});
+	</script>
+</body>
+</html>

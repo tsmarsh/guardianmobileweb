@@ -182,7 +182,7 @@ p{
 	
 	function build_summary(summary_url){
 		var li = $('<li>').appendTo("#trailblock");
-		$('<img />').addClass('spinner').attr('src', 'Images/load.gif').appendTo(li);
+		var spinner = $('<img />').addClass('spinner').attr('src', 'Images/load.gif').appendTo(li);
 			
 		$.getJSON(summary_url + "?callback=?",
 			function(summary_data){
@@ -190,13 +190,13 @@ p{
 					function(){
 						show_detail(summary_data.id, summary_data.detail_url);
 					});
-				$('li#' + summary_data.id + " img.spinner").hide();
-				$('<h3>').addClass('heading').html(summary_data.headline).appendTo(li);
+				spinner.hide();
+				$('<h3>').addClass('heading').html(summary_data.headline).insertBefore(spinner);
 				if(summary_data.thumbnail){
-					$('<img />').addClass('thumbnail').attr('src', summary_data.thumbnail.url).appendTo(li);
+					$('<img />').addClass('thumbnail').attr('src', summary_data.thumbnail.url).insertBefore(spinner);
 				}
-				$('<p>').addClass('summary').html(summary_data.summary).appendTo(li);
-				$('<p>').addClass('body').appendTo(li).hide();
+				$('<p>').addClass('summary').html(summary_data.summary).insertBefore(spinner);
+				$('<p>').addClass('body').insertBefore(spinner).hide();
 			}
 		)
 	};

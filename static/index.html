@@ -160,32 +160,40 @@
 	<script type="text/javascript">
 	
 	function show_detail(id, detail_url){
-		$('li#'+ id + ' p.summary').slideToggle();
-		$('li#'+ id + ' img.thumbnail').slideToggle();
 		if($('li#'+ id + ' p.body').html() === ""){
+			$('li#'+ id + ' img.spinner').show();
 			$.getJSON(detail_url + "?callback=?",
 				function(detail_data){
-					$('li#'+ id + ' p.body').html(detail_data.body).appendTo('#' + id);
+					$('li#'+ id + ' img.spinner').hide();
+					$('li#'+ id + ' p.summary').slideToggle();
+					$('li#'+ id + ' img.thumbnail').slideToggle();
+					$('li#'+ id + ' p.body').html(detail_data.body).slideToggle();
 				}
 			);
+		}else{
+			$('li#'+ id + ' p.summary').slideToggle();
+			$('li#'+ id + ' img.thumbnail').slideToggle();
+			$('li#'+ id + ' p.body').slideToggle();
 		}
-		$('li#'+ id + ' p.body').slideToggle();
-
 	};
 	
 	function build_summary(summary_url){
+		var li = $('<li>').appendTo("#trailblock");
+		$('<img />').addClass('spinner').attr('src', 'Images/load.gif').appendTo(li);
+			
 		$.getJSON(summary_url + "?callback=?",
 			function(summary_data){
-				var li = $(document.createElement('li')).attr('id', summary_data.id).click(
+				li.attr('id', summary_data.id).click(
 					function(){
 						show_detail(summary_data.id, summary_data.detail_url);
-					}).appendTo("#trailblock");
-				$(document.createElement('h3')).addClass('heading').html(summary_data.headline).appendTo(li);
+					});
+				$('li#' + summary_data.id + " img.spinner").hide();
+				$('<h3>').addClass('heading').html(summary_data.headline).appendTo(li);
 				if(summary_data.thumbnail){
-					$(document.createElement('img')).addClass('thumbnail').attr('src', summary_data.thumbnail.url).appendTo(li);
+					$('<img />').addClass('thumbnail').attr('src', summary_data.thumbnail.url).appendTo(li);
 				}
-				$(document.createElement('p')).addClass('summary').html(summary_data.summary).appendTo(li);
-				$(document.createElement('p')).addClass('body').appendTo(li).hide();
+				$('<p>').addClass('summary').html(summary_data.summary).appendTo(li);
+				$('<p>').addClass('body').appendTo(li).hide();
 			}
 		)
 	};
@@ -207,7 +215,7 @@
 		function(data){
 			$.each(data, 
 				function(i,item){
-					$(document.createElement("li"))
+					$("<li>")
 						.attr("href", item.path)
 						.html(item.link_text)
 						.addClass(item.zone)

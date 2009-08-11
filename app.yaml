@@ -4,5 +4,9 @@ runtime: python
 api_version: 1
 
 handlers:
+- url: /guardian.manifest
+  mime_type: text/cache-manifest
+  static_files: static/guardian.manifest
+  upload: static/guardian.manifest
 - url: /
   static_dir: static

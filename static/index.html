@@ -25,8 +25,8 @@ ul#menu li{
 	width: 75px;
 	font-family: georgia,serif;
 	font-size: small;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
 	margin: 2px;
 	padding: 6px;
 	color: white;
@@ -127,12 +127,19 @@ ul#trailblock li {
 }
 
 ul#trailblock li img {
-	width: 270px;
+	width: 240px;
 	height: auto;
 }
 
 ul#trailblock li img.thumbnail {
 	width: 140px;
+	float: left;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+ul#trailblock li img.spinner {
+	width: auto;
 	float: left;
 	padding-left: 5px;
 	padding-right: 5px;
@@ -173,6 +180,18 @@ p{
 					$('li#'+ id + ' p.summary').slideToggle();
 					$('li#'+ id + ' img.thumbnail').slideToggle();
 					$('li#'+ id + ' p.body').html(detail_data.body).slideToggle();
+					var gallery = $('<ul>').addClass('gallery').appendTo('li#'+ id);
+					$.each(detail_data.pictures,
+						function(i, picture){
+							var gallery_list_item = $('<li>').appendTo(gallery);
+							$('<img />').attr('src', picture.url).attr('title', picture.alt_text)
+							.appendTo(
+								$(gallery_list_item)
+							);
+							$('<h4>').addClass('byline').html(picture.credit).appendTo(gallery_list_item);
+							$('<p>').html(picture.alt_text).appendTo(gallery_list_item);
+						}
+					);
 				}
 			);
 		}else{

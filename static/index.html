@@ -9,8 +9,7 @@ body {
 
 h1{
 	margin-top: 25px;
-	width: 320px;
-	height: 48px;
+	height: 40px;
 	background-image: url('Images/guardian_logo.gif');
 	background-repeat: no-repeat;
 	background-position:center;
@@ -19,18 +18,17 @@ h1{
 
 ul#menu{
 	overflow: hidden;
+	margin-left: 15px;
 }
 ul#menu li{
-	//background-color: #D61D00;
 	float: left;
+	width: 75px;
 	font-family: georgia,serif;
+	font-size: small;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	margin: 2px;
-	height: 24px;
-	padding-left: 12px;
-	padding-right: 12px;
-	padding-top: 12px;
+	padding: 6px;
 	color: white;
 }
 
@@ -99,13 +97,12 @@ ul#menu li{
 }
 h3 {
 	color: rgb(0, 86, 137);
-	padding-left: 5px;
 	padding-right: 10px;
 	border-top: #888888;
 	border-top-style: solid;
 	border-top-width: 1px;
 	font-family: georgia;
-	font-size: 17px;
+	font-size: medium;
 	font-weight: bold;
 	text-overflow: ellipsis;
 	background-image: url('/Images/chevron.png');
@@ -119,8 +116,8 @@ ul#trailblock {
 }
 
 ul#trailblock li {
-	padding-left: 1em;
-	padding-right: 1em;
+	padding-left: 10px;
+	padding-right: 15px;
 	left: 10px;
 	font-family: arial,sans-serif;
 	font-size: 9pt;
@@ -129,7 +126,12 @@ ul#trailblock li {
 	text-overflow: ellipsis
 }
 
-img.thumbnail {
+ul#trailblock li img {
+	width: 270px;
+	height: auto;
+}
+
+ul#trailblock li img.thumbnail {
 	width: 140px;
 	float: left;
 	padding-left: 5px;
@@ -230,6 +232,7 @@ p{
 						);
 				});
 			});
+	$('ul#menu li:first').click();
 	</script>
 </body>
 </html>

@@ -153,6 +153,10 @@ p{
 	margin-top: 0;
 }
 
+h4{
+	text-align: right;
+	padding-right: 5px;
+}
 </style>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="minimum-scale=1.0, width=device-width, maximum-scale=1.6, user-scalable=no">
@@ -188,7 +192,7 @@ p{
 							.appendTo(
 								$(gallery_list_item)
 							);
-							$('<h4>').addClass('byline').html(picture.credit).appendTo(gallery_list_item);
+							$('<h4>').addClass('byline').html("Photograph: " + picture.credit).appendTo(gallery_list_item);
 							$('<p>').html(picture.alt_text).appendTo(gallery_list_item);
 						}
 					);

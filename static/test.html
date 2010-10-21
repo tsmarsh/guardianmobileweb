@@ -23,6 +23,13 @@ $(document).ready(function(){
 	test("should be able to get the summaries for a given section", function(){
 		ok(summaries.length > 0, "summaries for section length is greater than zero");
 	});
+	
+	test("should provide headline and trailText so that we can build a summary", function(){
+		$.each(summaries, function(index, summary){
+			ok(summary.fields.headline != null, "headline not null");
+			ok(summary.fields.trailText != null, "trailText not null");
+		});
+	});
 });
 
 </script>
